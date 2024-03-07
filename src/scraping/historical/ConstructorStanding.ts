@@ -1,6 +1,6 @@
 import { fetchDataWithCache } from "../caching";
 import { ConstructorStanding } from "../types";
-import { JSDOM } from "jsdom";
+import cheerio from "cheerio";
 
 export async function fetchHistoricalConstructorStandings(
   year: string
@@ -25,14 +25,13 @@ export async function fetchHistoricalConstructorStandings(
 }
 
 function parseConstructorStandings(htmlContent: string): ConstructorStanding[] {
-  const dom = new JSDOM(htmlContent);
-  const document = dom.window.document;
+  const $ = cheerio.load(htmlContent);
   const standings: ConstructorStanding[] = [];
 
-  document.querySelectorAll(".resultsarchive-table tbody tr").forEach((row) => {
-    const positionElement = row.children[1]?.textContent?.trim();
-    const teamElement = row.children[2]?.textContent?.trim();
-    const pointsElement = row.children[3]?.textContent?.trim();
+  $(".resultsarchive-table tbody tr").each((index, element) => {
+    const positionElement = $(element).children().eq(1).text().trim();
+    const teamElement = $(element).children().eq(2).text().trim();
+    const pointsElement = $(element).children().eq(3).text().trim();
 
     if (positionElement && teamElement && pointsElement) {
       const position = parseInt(positionElement);

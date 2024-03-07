@@ -1,20 +1,18 @@
 {
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node16 --outfile=dist/index.js --external:./xhr-sync-worker.js"
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node16 --outfile=dist/index.js"
   },
-  
   "dependencies": {
     "@hono/node-server": "^1.8.2",
     "@prisma/client": "^5.10.2",
     "axios": "^1.6.7",
+    "cheerio": "^1.0.0-rc.12",
     "hono": "^4.0.8",
-    "jsdom": "^24.0.0",
     "prisma": "^5.10.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/jsdom": "^21.1.6",
     "@types/node": "^20.11.17",
     "tsx": "^3.12.2"
   }
